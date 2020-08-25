@@ -14,6 +14,7 @@ const customerReducer = (state = initialState, action) => {
     case "AUTH_SUCCESS":
       return {
         ...state,
+        username: action.username,
         accessToken: action.accessToken,
         refreshToken: action.refreshToken,
         isAuth: true,
@@ -24,7 +25,7 @@ const customerReducer = (state = initialState, action) => {
         email: action.email,
         fullname: action.fullname,
       };
-    case "ERROR":
+    case "FAIL":
       return { ...state, error: action.error };
     default:
       break;
