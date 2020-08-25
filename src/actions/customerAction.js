@@ -34,7 +34,6 @@ export const getInfo = (email, fullname) => ({
 });
 export const onGetAccounts = (username) => async (dispatch) => {
   const { accessToken } = store.getState();
-  //   const accessToken = "nnn";
   console.log("accessToken", accessToken);
   axios.defaults.headers.common["x-access-token"] = accessToken;
   await axios.get("/api/customer").then((res) => {
