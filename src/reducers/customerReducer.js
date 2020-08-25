@@ -1,5 +1,3 @@
-import { AUTH_SUCCESS, GET_INFO } from "../actions/customerAction";
-
 const initialState = {
   accessToken: "",
   refreshToken: "",
@@ -13,14 +11,14 @@ const initialState = {
 
 const customerReducer = (state = initialState, action) => {
   switch (action.type) {
-    case AUTH_SUCCESS:
+    case "AUTH_SUCCESS":
       return {
         ...state,
         accessToken: action.accessToken,
         refreshToken: action.refreshToken,
         isAuth: true,
       };
-    case GET_INFO:
+    case "GET_INFO":
       return {
         ...state,
         email: action.email,
@@ -31,6 +29,7 @@ const customerReducer = (state = initialState, action) => {
     default:
       break;
   }
+  return state;
 };
 
 export default customerReducer;
