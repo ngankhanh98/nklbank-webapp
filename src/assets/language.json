@@ -1,0 +1,14 @@
+{
+  "login": {
+    "en": "login",
+    "vi": "đăng nhập"
+  },
+  "username": {
+    "en": "username",
+    "vi": "tên đăng nhập"
+  },
+  "password": {
+    "en": "password",
+    "vi": "mật khẩu"
+  }
+}
