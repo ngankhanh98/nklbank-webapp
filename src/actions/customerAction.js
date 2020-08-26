@@ -1,17 +1,28 @@
 import store from "../app/store";
+import { OAuthTypes, ActionTypes } from "../utils/constants";
+
 const axios = require("axios");
 
-export const fail = (message) => ({
-  type: FAIL,
-  error: message
+
+export const authFail = (message) => ({
+  type: OAuthTypes.OAUTH_ACCESS_DENIED,
+  error: message,
 });
 
 export const authSuccess = (username, accessToken, refreshToken) => ({
-  type: AUTH_SUCCESS,
+  type: OAuthTypes.OAUTH_ACCESS_APPROVED,
   username,
   accessToken,
   refreshToken,
 });
+
+export const getInfo = (email, fullname) => ({
+  type: ActionTypes.GET_INFORMATION,
+  email,
+  fullname,
+});
+
+
 export const onAuth = (username, password) => async (dispatch) => {
   try {
     const res = await axios.post("/api/auth", { username, password });
@@ -20,16 +31,11 @@ export const onAuth = (username, password) => async (dispatch) => {
     dispatch(authSuccess(username, accessToken, refreshToken));
   } catch (error) {
     console.log("error", error.response.data);
-    dispatch(fail(error.response.data));
+    dispatch(authFail(error.response.data));
   }
 };
 
-export const getInfo = (email, fullname) => ({
-  type: GET_INFO,
-  email,
-  fullname,
-});
-export const onGetAccounts = (username) => async (dispatch) => {
+export const onGetInfo = (username) => async (dispatch) => {
   const { accessToken } = store.getState();
   console.log("accessToken", accessToken);
   axios.defaults.headers.common["x-access-token"] = accessToken;
@@ -39,8 +45,3 @@ export const onGetAccounts = (username) => async (dispatch) => {
     dispatch(getInfo(email, fullname));
   });
 };
-
-export const FAIL = "FAIL"
-export const AUTH_SUCCESS = "AUTH_SUCCESS";
-export const GET_INFO = "GET_INFO";
-

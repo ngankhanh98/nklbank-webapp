@@ -1,3 +1,5 @@
+import { OAuthTypes, ActionTypes } from "../utils/constants";
+
 const initialState = {
   accessToken: "",
   refreshToken: "",
@@ -11,7 +13,7 @@ const initialState = {
 
 const customerReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "AUTH_SUCCESS":
+    case OAuthTypes.OAUTH_ACCESS_APPROVED:
       return {
         ...state,
         username: action.username,
@@ -19,13 +21,13 @@ const customerReducer = (state = initialState, action) => {
         refreshToken: action.refreshToken,
         isAuth: true,
       };
-    case "GET_INFO":
+    case ActionTypes.GET_INFORMATION:
       return {
         ...state,
         email: action.email,
         fullname: action.fullname,
       };
-    case "FAIL":
+    case OAuthTypes.OAUTH_ACCESS_DENIED:
       return { ...state, error: action.error };
     default:
       break;
