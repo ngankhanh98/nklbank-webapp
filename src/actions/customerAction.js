@@ -1,27 +1,35 @@
 import store from "../app/store";
-import { OAuthTypes, ActionTypes } from "../utils/constants";
+import { OAuthTypes, ActionTypes, JobStatus } from "../utils/constants";
 
 const axios = require("axios");
 
-
-export const authFail = (message) => ({
+const authFail = (message) => ({
   type: OAuthTypes.OAUTH_ACCESS_DENIED,
   error: message,
 });
 
-export const authSuccess = (username, accessToken, refreshToken) => ({
+const authSuccess = (username, accessToken, refreshToken) => ({
   type: OAuthTypes.OAUTH_ACCESS_APPROVED,
   username,
   accessToken,
   refreshToken,
 });
 
-export const getInfo = (email, fullname) => ({
+const addInformation = (email, fullname) => ({
   type: ActionTypes.GET_INFORMATION,
   email,
   fullname,
 });
 
+const addAccount = (accounts) => ({
+  type: ActionTypes.ADD_ACCOUNTS,
+  accounts,
+});
+
+const jobFail = (error) => ({
+  type: JobStatus.FAIL,
+  error,
+});
 
 export const onAuth = (username, password) => async (dispatch) => {
   try {
@@ -35,13 +43,27 @@ export const onAuth = (username, password) => async (dispatch) => {
   }
 };
 
-export const onGetInfo = (username) => async (dispatch) => {
+export const onLoadInfo = (username) => async (dispatch) => {
   const { accessToken } = store.getState();
   console.log("accessToken", accessToken);
   axios.defaults.headers.common["x-access-token"] = accessToken;
   await axios.get("/api/customer").then((res) => {
     console.log("res", res);
     const { email, fullname } = res.data;
-    dispatch(getInfo(email, fullname));
+    dispatch(addInformation(email, fullname));
   });
 };
+
+export const onLoadAccounts = () => async (dispatch) => {
+  const { accessToken } = store.getState().customerReducer;
+  console.log("accessToken", accessToken);
+  axios.defaults.headers.common["x-access-token"] = accessToken;
+  try {
+    const res = await axios.get("/api/customer/accounts");
+    console.log("res.data", res.data);
+    dispatch(addAccount(res.data));
+  } catch (error) {
+    dispatch(jobFail(error.response.data));
+  }
+};
+

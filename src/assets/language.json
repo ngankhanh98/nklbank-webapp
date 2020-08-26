@@ -1,14 +1,30 @@
 {
   "login": {
-    "en": "login",
-    "vi": "đăng nhập"
+    "en": "Login",
+    "vi": "Đăng nhập"
   },
   "username": {
-    "en": "username",
-    "vi": "tên đăng nhập"
+    "en": "Username",
+    "vi": "Tên đăng nhập"
   },
   "password": {
-    "en": "password",
-    "vi": "mật khẩu"
+    "en": "Password",
+    "vi": "Mật khẩu"
+  },
+  "accounts": {
+    "en": "Accounts",
+    "vi": "Tài khoản"
+  },
+  "transfer": {
+    "en": "Tranfer",
+    "vi": "Chuyển khoản"
+  },
+  "beneficỉaies": {
+    "en": "Beneficiaries",
+    "vi": "Quản lý danh bạ"
+  },
+  "debts":{
+    "en": "Debts",
+    "vi": "Quản lý nhắc nợ"
   }
 }

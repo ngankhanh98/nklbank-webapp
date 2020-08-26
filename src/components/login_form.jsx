@@ -3,19 +3,20 @@ import {
   FormControl,
   IconButton,
   InputAdornment,
-  makeStyles,
+
+
+
+  InputLabel, makeStyles,
   OutlinedInput,
-  TextField,
-  InputLabel,
+  TextField
 } from "@material-ui/core";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import React, { useState } from "react";
-
-import { onAuth } from "../actions/customerAction";
-import { capitalizeFirstLetter } from "../app/functions";
-import { login, username, password } from "../assets/language.json";
 import { useDispatch } from "react-redux";
+import { onAuth } from "../actions/customerAction";
+import { login, password, username } from "../assets/language.json";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,13 +55,13 @@ export default function LoginForm() {
     <form className={classes.root}>
       <TextField
         id="username"
-        label={capitalizeFirstLetter(username.vi)}
+        label={username.vi}
         variant="outlined"
         onChange={handleChange("username")}
       />
       <FormControl variant="outlined">
         <InputLabel htmlFor="password">
-          {capitalizeFirstLetter(password.vi)}
+          {password.vi}
         </InputLabel>
         <OutlinedInput
           id="password"

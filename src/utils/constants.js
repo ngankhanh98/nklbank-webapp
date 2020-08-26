@@ -1,3 +1,10 @@
+export const JobStatus = {
+  SUCCEED: "secceed",
+  FAIL: "fail",
+  IN_PROCESSING: "in_processing",
+  PENDING: "pending",
+};
+
 export const OAuthTypes = {
   OAUTH_ACCESS_APPROVED: "oauth_access_approved",
   OAUTH_ACCESS_DENIED: "oauth_access_denied",
@@ -6,5 +13,6 @@ export const OAuthTypes = {
 };
 
 export const ActionTypes = {
-    GET_INFORMATION: 'get_information'
-}
+  GET_INFORMATION: "get_information",
+  ADD_ACCOUNTS: "add_accounts",
+};

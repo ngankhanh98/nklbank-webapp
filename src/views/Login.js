@@ -1,12 +1,11 @@
-import { Grid, makeStyles, Paper, Box } from "@material-ui/core";
-import React from "react";
+import { Box, Grid, makeStyles, Paper } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-
+import React from "react";
+import { login } from "../assets/language.json";
+import logo from "../assets/logo.png";
 import LoginForm from "../components/login_form";
 
-import logo from "../assets/logo.png";
-import { login } from "../assets/language.json";
-import { capitalizeFirstLetter } from "../app/functions";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,7 +40,7 @@ export default function Login() {
           <img src={logo} alt="Logo" height="100ch"></img>
           <Typography>
             <Box fontSize="h5.fontSize" className={classes.title}>
-              {capitalizeFirstLetter(login.vi)}
+              {login.vi}
             </Box>
           </Typography>
         </div>
