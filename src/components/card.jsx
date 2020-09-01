@@ -16,8 +16,8 @@ const useStyles = makeStyles((theme) => ({
   balance: {
     width: "fit-content",
     color: "#1fab89",
-    borderRadius: "10px",
-    border: "1px solid ",
+    borderRadius: "5px",
+    // border: "1px solid ",
     padding: theme.spacing(0.5),
     background: "#e0ffcd",
     marginBottom: 12,
@@ -29,7 +29,7 @@ export default function OutlinedCard({ account }) {
 
   return (
    
-      <Card variant="outlined">
+      <Card >
         <CardContent>
           <Typography
             className={classes.type}
@@ -53,9 +53,6 @@ export default function OutlinedCard({ account }) {
             Ngày mở: {moment(account.open_date).format("L")}
           </Typography>
         </CardContent>
-        {/* <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions> */}
       </Card>
   );
 }

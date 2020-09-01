@@ -3,20 +3,19 @@ import {
   FormControl,
   IconButton,
   InputAdornment,
-
-
-
-  InputLabel, makeStyles,
+  InputLabel,
+  makeStyles,
   OutlinedInput,
-  TextField
+  TextField,
 } from "@material-ui/core";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { onAuth } from "../actions/customerAction";
 import { login, password, username } from "../assets/language.json";
-
+import { Redirect, Route } from "react-router-dom";
+import Dashboard from "../views/Dashboard";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,8 +26,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function LoginForm() {
+export default function LoginForm(props) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const { isAuth } = useSelector((state) => state.customerReducer);
 
   const [values, setValues] = useState({
     showPassword: false,
@@ -49,7 +51,12 @@ export default function LoginForm() {
     event.preventDefault();
   };
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    if (isAuth) {
+      console.log("redirect");
+      props.history.push("/");
+    }
+  }, [isAuth]);
 
   return (
     <form className={classes.root}>
@@ -60,9 +67,7 @@ export default function LoginForm() {
         onChange={handleChange("username")}
       />
       <FormControl variant="outlined">
-        <InputLabel htmlFor="password">
-          {password.vi}
-        </InputLabel>
+        <InputLabel htmlFor="password">{password.vi}</InputLabel>
         <OutlinedInput
           id="password"
           type={values.showPassword ? "text" : "password"}
@@ -89,6 +94,7 @@ export default function LoginForm() {
         disableElevation
         onClick={() => {
           dispatch(onAuth(values.username, values.password));
+          // redirect();
         }}
       >
         {login.vi}

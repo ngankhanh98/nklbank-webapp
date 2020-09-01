@@ -1,18 +1,16 @@
 import { Box, Grid, makeStyles, Paper } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import React from "react";
+import React, { useState } from "react";
 import { login } from "../assets/language.json";
 import logo from "../assets/logo.png";
 import LoginForm from "../components/login_form";
-
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
     direction: "column",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: theme.spacing(3)
+    marginTop: theme.spacing(3),
   },
   paper: {
     margin: theme.spacing(1),
@@ -31,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+export default function Login(props) {
   const classes = useStyles();
   return (
     <Grid container className={classes.root}>
@@ -45,7 +43,7 @@ export default function Login() {
           </Typography>
         </div>
         <Paper elevation={0} variant="outlined" className={classes.paper}>
-          <LoginForm />
+          <LoginForm {...props} />
         </Paper>
       </Grid>
     </Grid>

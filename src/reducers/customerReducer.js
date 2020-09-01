@@ -33,7 +33,7 @@ const sampleState = {
   accounts: [],
 };
 
-const customerReducer = (state = sampleState, action) => {
+const customerReducer = (state = initialState, action) => {
   switch (action.type) {
     case OAuthTypes.OAUTH_ACCESS_APPROVED:
       return {

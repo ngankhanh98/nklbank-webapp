@@ -1,18 +1,21 @@
 import React from "react";
-import Login from "./views/Login";
+import { BrowserRouter as Router } from "react-router-dom";
+import { Route, Switch } from "react-router";
+
+import { PrivateRoute } from "./routers";
 import Dashboard from "./views/Dashboard";
+import Login from "./views/Login";
+import Home from "./views/Home";
 
 function App() {
-  // return <Login></Login>;
-  return <Dashboard></Dashboard>;
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/login" component={Login} />
+        <PrivateRoute exact path="/" component={Dashboard} />
+        <Route exact path="/home" component={Home} />
+      </Switch>
+    </Router>
+  );
 }
-
 export default App;
-
-
-  // const items = [
-            //   { label: accounts.vi, icon: <CreditCard /> },
-            //   { label: transfer.vi, icon: <CallMade /> },
-            //   { lable: beneficỉaies.vi, icon: <PermContactCalendar /> },
-            //   { label: debts.vi, icon: <AddAlert /> },
-            // ];
