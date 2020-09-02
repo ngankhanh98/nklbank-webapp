@@ -36,12 +36,22 @@ const loadBeneficiaries = (beneficiaries) => ({
   beneficiaries,
 });
 
-const updateBeneficiary = (beneficiary_account, beneficiary_name) => ({
+const updateBeneficiary = (beneficiary_account, beneficiary_name, success) => ({
   type: ActionTypes.UPDATE_BENEFICIARY,
   beneficiary_account,
   beneficiary_name,
+  success,
 });
 
+const delBeneficiary = (beneficiary_account, success) => ({
+  type: ActionTypes.DEL_BENEFICIARIES,
+  beneficiary_account,
+  success,
+});
+
+const resetErrorSuccess = () => ({ type: JobStatus.RESET_ERROR_SUCCESS });
+
+/////////////////////////////////////////////////////////////////
 export const onAuth = (username, password) => async (dispatch) => {
   try {
     const res = await axios.post("/api/auth", { username, password });
@@ -103,9 +113,30 @@ export const onUpdateBeneficiary = (oldData, newData) => async (dispatch) => {
       name: beneficiary_name,
     });
     console.log("res.data", res.data);
-    dispatch(updateBeneficiary(beneficiary_account, beneficiary_name));
+    dispatch(
+      updateBeneficiary(beneficiary_account, beneficiary_name, res.data.msg)
+    );
   } catch (error) {
     console.log("error", error);
     dispatch(jobFail(error.response.data));
   }
 };
+
+export const onDelBeneficiary = (oldData) => async (dispatch) => {
+  const { accessToken } = store.getState().customerReducer;
+  console.log("accessToken", accessToken);
+  axios.defaults.headers.common["x-access-token"] = accessToken;
+  const { beneficiary_account } = oldData;
+  console.log("beneficiary_account", beneficiary_account);
+
+  try {
+    const res = await axios.delete(`api/beneficiary/${beneficiary_account}`);
+    dispatch(delBeneficiary(beneficiary_account, res.data.msg));
+  } catch (error) {
+    console.log("error", error);
+    dispatch(jobFail(error.response.data));
+  }
+};
+
+export const onResetErrorSuccess = () => (dispatch) =>
+  dispatch(resetErrorSuccess());

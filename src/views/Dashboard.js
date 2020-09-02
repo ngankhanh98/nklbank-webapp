@@ -19,6 +19,7 @@ import { useSelector } from "react-redux";
 import Debts from "./pages/Debts";
 import Transfer from "./pages/Transfer";
 import Beneficiaries from "./pages/Beneficiaries";
+import SnackNotification from "../components/snack_notification";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -94,21 +95,24 @@ export default function Dashboard() {
   console.log("selector", selector);
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <Sidebar drawer={classes.drawer} drawerPaper={classes.drawerPaper} />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Typography variant="h5" noWrap>
-          {layouts.find((layout) => layout.key === selector).title}
-        </Typography>
-        <div>
-          <Notification />
-          <User />
-        </div>
-      </AppBar>
-      <main className={classes.content}>
-        {layouts.find((layout) => layout.key === selector).component}
-      </main>
-    </div>
+    <>
+      <SnackNotification />
+      <div className={classes.root}>
+        <CssBaseline />
+        <Sidebar drawer={classes.drawer} drawerPaper={classes.drawerPaper} />
+        <AppBar position="fixed" className={classes.appBar}>
+          <Typography variant="h5" noWrap>
+            {layouts.find((layout) => layout.key === selector).title}
+          </Typography>
+          <div>
+            <Notification />
+            <User />
+          </div>
+        </AppBar>
+        <main className={classes.content}>
+          {layouts.find((layout) => layout.key === selector).component}
+        </main>
+      </div>
+    </>
   );
 }

@@ -3,6 +3,7 @@ export const JobStatus = {
   FAIL: "fail",
   IN_PROCESSING: "in_processing",
   PENDING: "pending",
+  RESET_ERROR_SUCCESS: "reset_error_success",
 };
 
 export const OAuthTypes = {

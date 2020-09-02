@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   onLoadBeneficiaries,
   onUpdateBeneficiary,
+  onDelBeneficiary,
 } from "../../actions/customerAction";
 import { fullname, accounts, bank } from "../../assets/language.json";
 import { subsetObject } from "../../app/functions";
@@ -80,13 +81,6 @@ export default function Beneficiaries() {
             setTimeout(() => {
               resolve();
               if (oldData) {
-                setState((prevState) => {
-                  const data = [...prevState.data];
-                  data[data.indexOf(oldData)] = newData;
-                  return { ...prevState, data };
-                });
-                console.log("oldData", oldData);
-                console.log('newData', newData)
                 dispatch(onUpdateBeneficiary(oldData, newData));
               }
             }, 600);
@@ -95,11 +89,7 @@ export default function Beneficiaries() {
           new Promise((resolve) => {
             setTimeout(() => {
               resolve();
-              setState((prevState) => {
-                const data = [...prevState.data];
-                data.splice(data.indexOf(oldData), 1);
-                return { ...prevState, data };
-              });
+              dispatch(onDelBeneficiary(oldData));
             }, 600);
           }),
       }}

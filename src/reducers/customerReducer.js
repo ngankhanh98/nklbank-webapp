@@ -7,6 +7,7 @@ const initialState = {
   email: "",
   fullname: "",
   error: null,
+  success: null,
   isAuth: false,
   accounts: [],
   beneficiaries: [],
@@ -30,6 +31,8 @@ const customerReducer = (state = initialState, action) => {
     case OAuthTypes.OAUTH_ACCESS_APPROVED:
       return {
         ...state,
+        error: null,
+        success: null,
         username: action.username,
         accessToken: action.accessToken,
         refreshToken: action.refreshToken,
@@ -43,7 +46,6 @@ const customerReducer = (state = initialState, action) => {
         email: action.email,
         fullname: action.fullname,
       };
-
     case ActionTypes.GET_ACCOUNTS:
       return {
         ...state,
@@ -56,7 +58,7 @@ const customerReducer = (state = initialState, action) => {
         ...state,
         beneficiaries: action.beneficiaries,
       };
-    case ActionTypes.UPDATE_BENEFICIARY:
+    case ActionTypes.UPDATE_BENEFICIARY: {
       const { beneficiaries } = state;
       const updatedPlace = beneficiaries.findIndex(
         (object) => object.beneficiary_account === action.beneficiary_account
@@ -66,17 +68,33 @@ const customerReducer = (state = initialState, action) => {
         ...updateBeneficiary,
         beneficiary_name: action.beneficiary_name,
       };
-      console.log("newObject", newObject);
       const newBeneficiaries = [
         ...beneficiaries.slice(0, updatedPlace),
         newObject,
         ...beneficiaries.slice(updatedPlace + 1),
       ];
-      console.log("newBeneficiaries", newBeneficiaries);
       return {
         ...state,
+        success: action.success,
         beneficiaries: newBeneficiaries,
       };
+    }
+    case ActionTypes.DEL_BENEFICIARIES: {
+      const { beneficiaries } = state;
+      const delPlace = beneficiaries.findIndex(
+        (obj) => obj.beneficiary_account === action.beneficiary_account
+      );
+      return {
+        ...state,
+        success: action.success,
+        beneficiaries: [
+          ...beneficiaries.splice(0, delPlace),
+          ...beneficiaries.splice(delPlace + 1),
+        ],
+      };
+    }
+    case JobStatus.RESET_ERROR_SUCCESS:
+      return { ...state, error: null, success: null };
     default:
       break;
   }
