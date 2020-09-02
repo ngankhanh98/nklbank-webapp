@@ -1,30 +1,47 @@
 {
   "login": {
+    "key": "login",
     "en": "Login",
     "vi": "Đăng nhập"
   },
   "username": {
+    "key": "username",
     "en": "Username",
     "vi": "Tên đăng nhập"
   },
   "password": {
+    "key": "password",
     "en": "Password",
     "vi": "Mật khẩu"
   },
   "accounts": {
+    "key": "accounts",
     "en": "Accounts",
     "vi": "Tài khoản"
   },
   "transfer": {
+    "key": "transfer",
     "en": "Tranfer",
     "vi": "Chuyển khoản"
   },
-  "beneficỉaies": {
+  "beneficiaries": {
+    "key": "beneficiaries",
     "en": "Beneficiaries",
     "vi": "Quản lý danh bạ"
   },
-  "debts":{
+  "debts": {
+    "key": "debts",
     "en": "Debts",
     "vi": "Quản lý nhắc nợ"
+  },
+  "fullname": {
+    "key": "fullname",
+    "en": "Fullname",
+    "vi": "Họ tên"
+  },
+  "bank": {
+    "key": "bank",
+    "en": "Bank",
+    "vi": "Ngân hàng"
   }
 }

@@ -10,12 +10,10 @@ import {
 } from "@material-ui/core";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { onAuth } from "../actions/customerAction";
 import { login, password, username } from "../assets/language.json";
-import { Redirect, Route } from "react-router-dom";
-import Dashboard from "../views/Dashboard";
 
 const useStyles = makeStyles((theme) => ({
   root: {

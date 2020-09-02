@@ -1,5 +1,4 @@
-import { OAuthTypes, ActionTypes, JobStatus } from "../utils/constants";
-import { useSelector } from "react-redux";
+import { ActionTypes, JobStatus, OAuthTypes } from "../utils/constants";
 
 const initialState = {
   accessToken: "",
@@ -10,16 +9,9 @@ const initialState = {
   error: null,
   isAuth: false,
   accounts: [],
+  beneficiaries: [],
 };
 
-// const account = [
-//   {
-//     type: 0,
-//     number: "118280734454",
-//     balance: "200000",
-//     open_date: "2020-08-26T12:23:45.000Z",
-//   },
-// ];
 const sampleState = {
   accessToken:
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5nYW5raGFuaCIsImlhdCI6MTU5ODQ1NTg0NCwiZXhwIjoxNTk4NDU2NDQ0fQ.5ygGPtB_aDIfaul7u000k0mSRbdPrd4L6WK0RDUN0BE",
@@ -52,13 +44,18 @@ const customerReducer = (state = initialState, action) => {
         fullname: action.fullname,
       };
 
-    case ActionTypes.ADD_ACCOUNTS:
+    case ActionTypes.GET_ACCOUNTS:
       return {
         ...state,
         accounts: action.accounts,
       };
     case JobStatus.FAIL:
       return { ...state, error: action.error };
+    case ActionTypes.GET_BENEFICIARIES:
+      return {
+        ...state,
+        beneficiaries: action.beneficiaries,
+      };
     default:
       break;
   }
@@ -66,4 +63,3 @@ const customerReducer = (state = initialState, action) => {
 };
 
 export default customerReducer;
-

@@ -1,12 +1,10 @@
+import { Paper } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { onLoadAccounts } from "../../actions/customerAction";
-import { shadows } from '@material-ui/system';
-
 import Card from "../../components/card";
-import { Paper, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {

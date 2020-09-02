@@ -1,5 +1,5 @@
 import store from "../app/store";
-import { OAuthTypes, ActionTypes, JobStatus } from "../utils/constants";
+import { ActionTypes, JobStatus, OAuthTypes } from "../utils/constants";
 
 const axios = require("axios");
 
@@ -15,20 +15,25 @@ const authSuccess = (username, accessToken, refreshToken) => ({
   refreshToken,
 });
 
-const addInformation = (email, fullname) => ({
+const loadInfo = (email, fullname) => ({
   type: ActionTypes.GET_INFORMATION,
   email,
   fullname,
 });
 
-const addAccount = (accounts) => ({
-  type: ActionTypes.ADD_ACCOUNTS,
+const loadAccount = (accounts) => ({
+  type: ActionTypes.GET_ACCOUNTS,
   accounts,
 });
 
 const jobFail = (error) => ({
   type: JobStatus.FAIL,
   error,
+});
+
+const loadBeneficiaries = (beneficiaries) => ({
+  type: ActionTypes.GET_BENEFICIARIES,
+  beneficiaries,
 });
 
 export const onAuth = (username, password) => async (dispatch) => {
@@ -50,7 +55,7 @@ export const onLoadInfo = (username) => async (dispatch) => {
   await axios.get("/api/customer").then((res) => {
     console.log("res", res);
     const { email, fullname } = res.data;
-    dispatch(addInformation(email, fullname));
+    dispatch(loadInfo(email, fullname));
   });
 };
 
@@ -61,9 +66,22 @@ export const onLoadAccounts = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/customer/accounts");
     console.log("res.data", res.data);
-    dispatch(addAccount(res.data));
+    dispatch(loadAccount(res.data));
   } catch (error) {
     dispatch(jobFail(error.response.data));
   }
 };
 
+export const onLoadBeneficiaries = () => async (dispatch) => {
+  const { accessToken } = store.getState().customerReducer;
+  console.log("accessToken", accessToken);
+  axios.defaults.headers.common["x-access-token"] = accessToken;
+  try {
+    const res = await axios.get("api/customer/beneficiaries");
+    console.log("res", res);
+    dispatch(loadBeneficiaries(res.data));
+  } catch (error) {
+    console.log('error', error)
+    dispatch(jobFail(error.response.data));
+  }
+};

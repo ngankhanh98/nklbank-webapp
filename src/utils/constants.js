@@ -12,7 +12,12 @@ export const OAuthTypes = {
   OAUTH_INVALID_PARAM: "oauth_invalid_param",
 };
 
+export const AppTypes = {
+  SWITCH_SIDEBAR: "switch_sidebar",
+};
+
 export const ActionTypes = {
   GET_INFORMATION: "get_information",
-  ADD_ACCOUNTS: "add_accounts",
+  GET_ACCOUNTS: "get_accounts",
+  GET_BENEFICIARIES: "get_beneficiaries",
 };

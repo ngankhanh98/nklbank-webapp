@@ -1,6 +1,6 @@
 import { Box, Grid, makeStyles, Paper } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import React, { useState } from "react";
+import React from "react";
 import { login } from "../assets/language.json";
 import logo from "../assets/logo.png";
 import LoginForm from "../components/login_form";

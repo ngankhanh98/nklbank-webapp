@@ -28,7 +28,6 @@ export default function OutlinedCard({ account }) {
   const classes = useStyles();
 
   return (
-   
       <Card >
         <CardContent>
           <Typography
