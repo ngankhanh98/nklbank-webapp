@@ -24,4 +24,6 @@ export const ActionTypes = {
   ADD_BENEFICIARY: "add_beneficiary",
   UPDATE_BENEFICIARY: "update_beneficiary",
   DEL_BENEFICIARIES: "del_beneficiary",
+
+  GET_BANK_LIST: "get_bank_list"
 };

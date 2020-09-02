@@ -51,6 +51,10 @@ const delBeneficiary = (beneficiary_account, success) => ({
 
 const resetErrorSuccess = () => ({ type: JobStatus.RESET_ERROR_SUCCESS });
 
+const loadBankList = (banks) => ({
+  type: ActionTypes.GET_BANK_LIST,
+  banks,
+});
 /////////////////////////////////////////////////////////////////
 export const onAuth = (username, password) => async (dispatch) => {
   try {
@@ -140,3 +144,13 @@ export const onDelBeneficiary = (oldData) => async (dispatch) => {
 
 export const onResetErrorSuccess = () => (dispatch) =>
   dispatch(resetErrorSuccess());
+
+export const onLoadBankList = () => async (dispatch) => {
+  try {
+    const res = await axios.get("api/partnerbank");
+    dispatch(loadBankList(res.data));
+  } catch (error) {
+    console.log("error", error);
+    dispatch(jobFail(error.response.data));
+  }
+};

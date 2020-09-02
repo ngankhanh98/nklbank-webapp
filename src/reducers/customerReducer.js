@@ -11,6 +11,7 @@ const initialState = {
   isAuth: false,
   accounts: [],
   beneficiaries: [],
+  banks: null,
 };
 
 const sampleState = {
@@ -95,6 +96,8 @@ const customerReducer = (state = initialState, action) => {
     }
     case JobStatus.RESET_ERROR_SUCCESS:
       return { ...state, error: null, success: null };
+    case ActionTypes.GET_BANK_LIST:
+      return { ...state, banks: action.banks };
     default:
       break;
   }

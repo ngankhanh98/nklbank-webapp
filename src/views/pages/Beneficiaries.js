@@ -6,9 +6,10 @@ import {
   onLoadBeneficiaries,
   onUpdateBeneficiary,
   onDelBeneficiary,
+  onLoadBankList,
 } from "../../actions/customerAction";
 import { fullname, accounts, bank } from "../../assets/language.json";
-import { subsetObject } from "../../app/functions";
+import { subsetObject, normalizedBanks } from "../../app/functions";
 
 export default function Beneficiaries() {
   const [state, setState] = useState({
@@ -19,9 +20,12 @@ export default function Beneficiaries() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(onLoadBeneficiaries());
+    dispatch(onLoadBankList());
   }, []);
 
-  const { beneficiaries } = useSelector((state) => state.customerReducer);
+  const { beneficiaries, banks } = useSelector(
+    (state) => state.customerReducer
+  );
   console.log("beneficiaries", beneficiaries);
 
   useEffect(() => {
@@ -29,7 +33,9 @@ export default function Beneficiaries() {
       const _fields = Object.keys(beneficiaries[0]);
       const _columns = _fields
         .map((field) => {
-          let title, editable;
+          let title,
+            editable,
+            lookup = null;
           if (field.includes("_name")) {
             title = fullname.vi;
           }
@@ -40,8 +46,11 @@ export default function Beneficiaries() {
           if (field.includes("_bank")) {
             title = bank.vi;
             editable = "onAdd";
+            if (banks) {
+              lookup = normalizedBanks(banks);
+            }
           }
-          return { title, field: field, editable: editable };
+          return { title, field: field, editable: editable, lookup: lookup };
         })
         .filter((field) => field.title !== undefined);
       const _data = beneficiaries.map((element) =>
@@ -56,7 +65,7 @@ export default function Beneficiaries() {
         data: _data,
       });
     }
-  }, [beneficiaries]);
+  }, [beneficiaries, banks]);
 
   return (
     <MaterialTable
