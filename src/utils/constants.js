@@ -20,4 +20,7 @@ export const ActionTypes = {
   GET_INFORMATION: "get_information",
   GET_ACCOUNTS: "get_accounts",
   GET_BENEFICIARIES: "get_beneficiaries",
+  ADD_BENEFICIARY: "add_beneficiary",
+  UPDATE_BENEFICIARY: "update_beneficiary",
+  DEL_BENEFICIARIES: "del_beneficiary",
 };

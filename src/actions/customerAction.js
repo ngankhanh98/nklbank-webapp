@@ -36,6 +36,12 @@ const loadBeneficiaries = (beneficiaries) => ({
   beneficiaries,
 });
 
+const updateBeneficiary = (beneficiary_account, beneficiary_name) => ({
+  type: ActionTypes.UPDATE_BENEFICIARY,
+  beneficiary_account,
+  beneficiary_name,
+});
+
 export const onAuth = (username, password) => async (dispatch) => {
   try {
     const res = await axios.post("/api/auth", { username, password });
@@ -77,11 +83,29 @@ export const onLoadBeneficiaries = () => async (dispatch) => {
   console.log("accessToken", accessToken);
   axios.defaults.headers.common["x-access-token"] = accessToken;
   try {
-    const res = await axios.get("api/customer/beneficiaries");
+    const res = await axios.get("api/beneficiary");
     console.log("res", res);
     dispatch(loadBeneficiaries(res.data));
   } catch (error) {
-    console.log('error', error)
+    console.log("error", error);
+    dispatch(jobFail(error.response.data));
+  }
+};
+
+export const onUpdateBeneficiary = (oldData, newData) => async (dispatch) => {
+  const { accessToken } = store.getState().customerReducer;
+  console.log("accessToken", accessToken);
+  axios.defaults.headers.common["x-access-token"] = accessToken;
+  const { beneficiary_account, beneficiary_name } = newData;
+  try {
+    const res = await axios.put("api/beneficiary", {
+      beneficiary_account,
+      name: beneficiary_name,
+    });
+    console.log("res.data", res.data);
+    dispatch(updateBeneficiary(beneficiary_account, beneficiary_name));
+  } catch (error) {
+    console.log("error", error);
     dispatch(jobFail(error.response.data));
   }
 };

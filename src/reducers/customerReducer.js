@@ -56,6 +56,27 @@ const customerReducer = (state = initialState, action) => {
         ...state,
         beneficiaries: action.beneficiaries,
       };
+    case ActionTypes.UPDATE_BENEFICIARY:
+      const { beneficiaries } = state;
+      const updatedPlace = beneficiaries.findIndex(
+        (object) => object.beneficiary_account === action.beneficiary_account
+      );
+      const updateBeneficiary = beneficiaries[updatedPlace];
+      const newObject = {
+        ...updateBeneficiary,
+        beneficiary_name: action.beneficiary_name,
+      };
+      console.log("newObject", newObject);
+      const newBeneficiaries = [
+        ...beneficiaries.slice(0, updatedPlace),
+        newObject,
+        ...beneficiaries.slice(updatedPlace + 1),
+      ];
+      console.log("newBeneficiaries", newBeneficiaries);
+      return {
+        ...state,
+        beneficiaries: newBeneficiaries,
+      };
     default:
       break;
   }

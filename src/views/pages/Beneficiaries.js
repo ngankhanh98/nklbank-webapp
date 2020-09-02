@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import MaterialTable from "material-table";
 import { useSelector, useDispatch } from "react-redux";
 
-import { onLoadBeneficiaries } from "../../actions/customerAction";
-
+import {
+  onLoadBeneficiaries,
+  onUpdateBeneficiary,
+} from "../../actions/customerAction";
 import { fullname, accounts, bank } from "../../assets/language.json";
 import { subsetObject } from "../../app/functions";
 
@@ -26,11 +28,19 @@ export default function Beneficiaries() {
       const _fields = Object.keys(beneficiaries[0]);
       const _columns = _fields
         .map((field) => {
-          let title;
-          if (field.includes("_name")) title = fullname.vi;
-          if (field.includes("_account")) title = accounts.vi;
-          if (field.includes("_bank")) title = bank.vi;
-          return { title, field: field };
+          let title, editable;
+          if (field.includes("_name")) {
+            title = fullname.vi;
+          }
+          if (field.includes("_account")) {
+            title = accounts.vi;
+            editable = "onAdd";
+          }
+          if (field.includes("_bank")) {
+            title = bank.vi;
+            editable = "onAdd";
+          }
+          return { title, field: field, editable: editable };
         })
         .filter((field) => field.title !== undefined);
       const _data = beneficiaries.map((element) =>
@@ -38,6 +48,7 @@ export default function Beneficiaries() {
       );
       console.log("_columns", _columns);
       console.log("_data", _data);
+
       setState({
         ...state,
         columns: _columns,
@@ -58,6 +69,7 @@ export default function Beneficiaries() {
               resolve();
               setState((prevState) => {
                 const data = [...prevState.data];
+                console.log("data", data);
                 data.push(newData);
                 return { ...prevState, data };
               });
@@ -73,6 +85,9 @@ export default function Beneficiaries() {
                   data[data.indexOf(oldData)] = newData;
                   return { ...prevState, data };
                 });
+                console.log("oldData", oldData);
+                console.log('newData', newData)
+                dispatch(onUpdateBeneficiary(oldData, newData));
               }
             }, 600);
           }),
