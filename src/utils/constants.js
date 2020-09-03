@@ -4,6 +4,7 @@ export const JobStatus = {
   IN_PROCESSING: "in_processing",
   PENDING: "pending",
   RESET_ERROR_SUCCESS: "reset_error_success",
+  UPDATE_BUFFER: "update_buffer",
 };
 
 export const OAuthTypes = {
@@ -25,5 +26,5 @@ export const ActionTypes = {
   UPDATE_BENEFICIARY: "update_beneficiary",
   DEL_BENEFICIARIES: "del_beneficiary",
 
-  GET_BANK_LIST: "get_bank_list"
+  GET_BANK_LIST: "get_bank_list",
 };

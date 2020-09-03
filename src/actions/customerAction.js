@@ -49,11 +49,22 @@ const delBeneficiary = (beneficiary_account, success) => ({
   success,
 });
 
+const addBeneficiary = (beneficiary, success) => ({
+  type: ActionTypes.ADD_BENEFICIARY,
+  beneficiary,
+  success,
+});
+
 const resetErrorSuccess = () => ({ type: JobStatus.RESET_ERROR_SUCCESS });
 
 const loadBankList = (banks) => ({
   type: ActionTypes.GET_BANK_LIST,
   banks,
+});
+
+const updateBuffer = (buffer) => ({
+  type: JobStatus.UPDATE_BUFFER,
+  buffer,
 });
 /////////////////////////////////////////////////////////////////
 export const onAuth = (username, password) => async (dispatch) => {
@@ -116,9 +127,9 @@ export const onUpdateBeneficiary = (oldData, newData) => async (dispatch) => {
       beneficiary_account,
       name: beneficiary_name,
     });
-    console.log("res.data", res.data);
+    console.log("res", res);
     dispatch(
-      updateBeneficiary(beneficiary_account, beneficiary_name, res.data.msg)
+      updateBeneficiary(beneficiary_account, beneficiary_name, res.data)
     );
   } catch (error) {
     console.log("error", error);
@@ -135,7 +146,7 @@ export const onDelBeneficiary = (oldData) => async (dispatch) => {
 
   try {
     const res = await axios.delete(`api/beneficiary/${beneficiary_account}`);
-    dispatch(delBeneficiary(beneficiary_account, res.data.msg));
+    dispatch(delBeneficiary(beneficiary_account, res.data));
   } catch (error) {
     console.log("error", error);
     dispatch(jobFail(error.response.data));
@@ -152,5 +163,26 @@ export const onLoadBankList = () => async (dispatch) => {
   } catch (error) {
     console.log("error", error);
     dispatch(jobFail(error.response.data));
+  }
+};
+
+export const onAddBeneficiary = (beneficiary) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/beneficiary", beneficiary);
+    dispatch(addBeneficiary(beneficiary, res.data));
+  } catch (error) {
+    console.log("error", error);
+    dispatch(jobFail(error.response.data));
+  }
+};
+
+export const onQueryAccount = (account, bank) => async (dispatch) => {
+  try {
+    const res = await axios.get(
+      `api/account/?account_number=${account}&bank=${bank}`
+    );
+    dispatch(updateBuffer({ data: res.data }));
+  } catch (error) {
+    dispatch(updateBuffer({ error: error.response.data }));
   }
 };

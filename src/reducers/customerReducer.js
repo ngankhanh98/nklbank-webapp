@@ -12,6 +12,7 @@ const initialState = {
   accounts: [],
   beneficiaries: [],
   banks: null,
+  buffer: { data: null, error: null },
 };
 
 const sampleState = {
@@ -98,6 +99,19 @@ const customerReducer = (state = initialState, action) => {
       return { ...state, error: null, success: null };
     case ActionTypes.GET_BANK_LIST:
       return { ...state, banks: action.banks };
+    case ActionTypes.ADD_BENEFICIARY: {
+      const { beneficiaries } = state;
+      return {
+        ...state,
+        beneficiaries: [...beneficiaries, action.beneficiary],
+        success: action.success,
+      };
+    }
+    case JobStatus.UPDATE_BUFFER: {
+      const { buffer } = state;
+      console.log("action.buffer", action.buffer);
+      return { ...state, buffer: { ...buffer, ...action.buffer } };
+    }
     default:
       break;
   }

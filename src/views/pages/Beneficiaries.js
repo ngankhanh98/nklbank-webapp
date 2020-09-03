@@ -1,20 +1,44 @@
-import React, { useState, useEffect } from "react";
 import MaterialTable from "material-table";
-import { useSelector, useDispatch } from "react-redux";
-
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  onLoadBeneficiaries,
-  onUpdateBeneficiary,
-  onDelBeneficiary,
-  onLoadBankList,
+  onAddBeneficiary, onDelBeneficiary,
+  onLoadBankList, onLoadBeneficiaries,
+  onUpdateBeneficiary
 } from "../../actions/customerAction";
-import { fullname, accounts, bank } from "../../assets/language.json";
-import { subsetObject, normalizedBanks } from "../../app/functions";
+import { subsetObject } from "../../app/functions";
+
+
+const _columns = [
+  {
+    editable: "onAdd",
+    field: "beneficiary_account",
+    title: "Tài khoản",
+  },
+  { field: "beneficiary_name", title: "Họ tên" },
+  {
+    editable: "onAdd",
+    field: "partner_bank",
+    lookup: {
+      mpbank: "MPBank",
+      s2qbank: "S2Q Bank",
+      cryptobank: "CryptoBank",
+      nklbank: "NKLBank",
+    },
+    title: "Ngân hàng",
+  },
+];
 
 export default function Beneficiaries() {
   const [state, setState] = useState({
-    columns: [],
+    columns: _columns,
     data: [],
+  });
+
+  const [nameError, setNameError] = useState({
+    error: false,
+    label: "",
+    helperText: "",
   });
 
   const dispatch = useDispatch();
@@ -23,49 +47,21 @@ export default function Beneficiaries() {
     dispatch(onLoadBankList());
   }, []);
 
-  const { beneficiaries, banks } = useSelector(
-    (state) => state.customerReducer
-  );
-  console.log("beneficiaries", beneficiaries);
+  const { beneficiaries } = useSelector((state) => state.customerReducer);
 
   useEffect(() => {
     if (beneficiaries.length) {
       const _fields = Object.keys(beneficiaries[0]);
-      const _columns = _fields
-        .map((field) => {
-          let title,
-            editable,
-            lookup = null;
-          if (field.includes("_name")) {
-            title = fullname.vi;
-          }
-          if (field.includes("_account")) {
-            title = accounts.vi;
-            editable = "onAdd";
-          }
-          if (field.includes("_bank")) {
-            title = bank.vi;
-            editable = "onAdd";
-            if (banks) {
-              lookup = normalizedBanks(banks);
-            }
-          }
-          return { title, field: field, editable: editable, lookup: lookup };
-        })
-        .filter((field) => field.title !== undefined);
       const _data = beneficiaries.map((element) =>
         subsetObject(element, _fields)
       );
-      console.log("_columns", _columns);
-      console.log("_data", _data);
 
       setState({
         ...state,
-        columns: _columns,
         data: _data,
       });
     }
-  }, [beneficiaries, banks]);
+  }, [beneficiaries]);
 
   return (
     <MaterialTable
@@ -77,12 +73,7 @@ export default function Beneficiaries() {
           new Promise((resolve) => {
             setTimeout(() => {
               resolve();
-              setState((prevState) => {
-                const data = [...prevState.data];
-                console.log("data", data);
-                data.push(newData);
-                return { ...prevState, data };
-              });
+              dispatch(onAddBeneficiary(newData));
             }, 600);
           }),
         onRowUpdate: (newData, oldData) =>

@@ -17,7 +17,6 @@ export const subsetObject = (obj, [...keys]) =>
  * const ret = arrayToObject([a:1, a:3, a:4])
  * => expected output: {1:1, 2:3, 3:4}
  */
-
 export const normalizedBanks = ([...banks]) => {
   const toObject = (bank) => {
     const { name_bank } = bank;
@@ -29,5 +28,8 @@ export const normalizedBanks = ([...banks]) => {
 
   const addBank = (banks, bank) => ({ ...banks, ...bank });
 
-  return banks.map((bank) => toObject(bank)).reduce(addBank);
+  return {
+    ...banks.map((bank) => toObject(bank)).reduce(addBank),
+    nklbank: "NKLBank",
+  };
 };
